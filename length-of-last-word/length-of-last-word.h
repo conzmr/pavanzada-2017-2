@@ -1,0 +1,1 @@
+int getLength(char*, int);
