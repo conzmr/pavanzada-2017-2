@@ -14,16 +14,25 @@
 
 int testsRun = 0;
 
-static char * testUnit() {
-  int maxSwap = maximumSwap(15724);
+static char * testMaxSwap() {
+  int num = 109973;
+  int maxSwap = maximumSwap(num);
   printf("%i\n",maxSwap );
+  muAssert("error, You must be able to calculate maxSwap. ", maxSwap != -1);
+  return 0;
+}
 
-  muAssert("error, maxSwap is not 1 != 1", maxSwap != 0);
+static char * testNegativeNumber() {
+  int num = -34109973;
+  int maxSwap = maximumSwap(num);
+  printf("%i\n",maxSwap );
+  muAssert("error, You should not be able to calculate maxSwap of negative numbers. ", maxSwap == -1);
   return 0;
 }
 
 static char * allTests() {
-  muRunTest(testUnit);
+  muRunTest(testMaxSwap);
+  muRunTest(testNegativeNumber);
   return 0;
 }
 

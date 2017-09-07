@@ -2,10 +2,16 @@
 #include <stdio.h>
 #include "maxSwap.h"
 
-/* Add function signatures here */
-
 int main(int argc, char **argv) {
-  /* Start your code here */
-  printf("Hello from main\n");
+  int num = 35109973;
+  int maxSwap = maximumSwap(num);
+  if(maxSwap!=-1)
+  {
+    printf("Maximum swap for %i is %i\n",num, maxSwap );
+  }
+  else
+  {
+    printf("Number to swap must be positive\n");
+  }
   return 0;
 }

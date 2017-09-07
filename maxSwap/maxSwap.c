@@ -2,7 +2,20 @@
 #include <stdio.h>
 #include "maxSwap.h"
 
+/***********************
+* maximumSwap
+* Given a non-negative integer, you could swap two digits at most once to get
+* the maximum valued number.
+* @param:
+* num: non-negative integer
+* @return:
+* int: maximum valued number
+*/
 int maximumSwap(int num) {
+    if(num<0)
+    {
+      return -1;
+    }
     int maxDigitIndex = 0;
     int length = snprintf( NULL, 0, "%d", num );
     char* str = malloc( length + 1 );
