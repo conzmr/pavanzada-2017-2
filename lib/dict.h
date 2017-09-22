@@ -17,4 +17,5 @@ Dict * initDictionary(unsigned int, int *);
 //newDict is just where I will save the direction
 
 
-void upsertDictionary(Dict *, char *, void *, int *); //3rd int is the error code
+void upsertDictionary(Dict *, char *, void *, int, int *); //3rd int is the error code
+void * getDictionary(Dict *,char *, int, int *);

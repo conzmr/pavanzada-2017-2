@@ -25,17 +25,59 @@ static char *testInitDictionary() {
   return 0;
 }
 
-static char *testUpsertDictionary() {
+// static char *testUpsertDictionary() {
+//   unsigned int size = 1;
+//   int errorCode;
+//   Dict *myDictionary = initDictionary(size, &errorCode);
+//   int value = 1;
+//   upsertDictionary(myDictionary, "uno", (void *)&value, &errorCode);
+//   void *result = getDictionary(myDictionary, "uno", &errorCode);
+//
+//   muAssert("myDictionary errorCode must be 0", errorCode == 0);
+//   muAssert("result must be equal to value", *((int *)result == value); //Value is a pointer to anything, but I know that It is a pointer to int
+//   return 0;
+// }
+//
+// static char *testGetDictionary() {
+//   unsigned int size = 1
+//   int errorCode;
+//   Dict *myDictionary = initDictionary(size, &errorCode); //pongo un & para pasar la dirección y ahí voy a escribir el error
+//   muAssert("myDictionary must be different than null", myDictionary != NULL);
+//   muAssert("myDictionary size must be 4", myDictionary->size == 4);
+//   muAssert("myDictionary errorCode must be 0", errorCode == 0);
+//   return 0;
+// }
+
+static char *testUpsertDictionary()
+{
   unsigned int size = 1;
   int errorCode;
   Dict *myDictionary = initDictionary(size, &errorCode);
   int value = 1;
-  upsertDictionary(myDictionary, "uno", (void *)&value, &errorCode);
+  upsertDictionary(myDictionary, "uno", (void *)&value, sizeof(int), &errorCode);
+
   muAssert("myDictionary errorCode must be 0", errorCode == 0);
-  muAssert("myDictionary size must be 4", strcmp(myDictionary->elements[0].key, "uno")==0);
-  muAssert("myDictionary size must be 4", *((int *)myDictionary->elements[0].value)== value); //Value is a pointer to anything, but I know that It is a pointer to int
+  muAssert("myDictionary errorCode must be 0", strcmp(myDictionary->elements[0].key, "uno") == 0);
+  muAssert("myDictionary errorCode must be 0", *((int *)myDictionary->elements[0].value) == value);
   return 0;
 }
+
+
+static char *testGetDictionary()
+{
+  unsigned int size = 1;
+  int errorCode;
+  Dict *myDictionary = initDictionary(size, &errorCode);
+  int value = 1;
+  upsertDictionary(myDictionary, "uno", (void *)&value,sizeof(int), &errorCode);
+  void *result = getDictionary(myDictionary, "uno", sizeof(int), &errorCode);
+  value = 27;
+  muAssert("myDictionary errorCode must be 0", errorCode == 0);
+  printf("%d\n", *((int *)result));
+  muAssert("result must be equal to value", *((int *)result) == 1);
+  return 0;
+}
+
 
 static char *allTests() {
   muRunTest(testInitDictionary);
