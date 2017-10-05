@@ -1,14 +1,25 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #include "keyboardRow.h"
 
-int inOneRow(char **rows, char *word, int index){
+/***********************
+* inOneRow
+* Given a word and row, returns if could be typed complete within .
+* @param:
+* rows: array with three keyboard rows as strings
+* rowsLength: int array with the size of each alphabet row
+* firstLetter: first character in a word
+* @return:
+* integer: 0 || 1 || 2
+*/
+int inOneRow(char *row, char *word, int index){
   int isIn;
-  for(int i=0; word[i]!= '\0'; i++){
+  for(int i=1; word[i]!= '\0'; i++){
     isIn = 0;
-    for(int j=0; rows[index][j] != '\0'; j++){
-      if(word[i] == rows[index][j]){
+    for(int j=0; row[j] != '\0'; j++){
+      if(word[i] == row[j]){
         isIn = 1;
         break;
       }
@@ -20,7 +31,19 @@ int inOneRow(char **rows, char *word, int index){
   return 1;
 }
 
-int selectRow(char **rows, int *rowsLength, char *firstLetter){
+/***********************
+* selectRow
+* According to the first letter of a word, determines in which row 0, 1 or 2
+* should the entire word be.
+* @param:
+* rows: array with three keyboard rows as strings
+* rowsLength: int array with the size of each alphabet row
+* firstLetter: first character in a word
+* @return:
+* integer: 0 || 1 || 2
+*/
+int selectRow(char **rows, int *rowsLength, char firstLetter){
+  firstLetter = tolower(firstLetter);
   for(int i = 0; i<rowsLength[0]; i++){
     if(firstLetter == rows[0][i]){
       return 0;
@@ -36,23 +59,23 @@ int selectRow(char **rows, int *rowsLength, char *firstLetter){
       }
     }
   }
-  return 0;
+  return -1;
 }
 
 
-/** findWords
-  * Receives an array of char * (strings) and a pointer to the size of the
-  * result. It returns the words that can be formed using only a row of the
-  * standard US Keyboard layout.
-  * Notes:
-  *   - You may use one character in the keyboard more than once.
-  *   - You may assume the input string will only contain letters of alphabet.
-  * @param:
-  *  words: the input array of char *
-  *  words_size: the size of the char ** words
-  *  return_size: the direction in memory in which to save the result's size.
-  * @return:
-  *  char **: the words that can be formed.
+/***********************
+* findWords
+* Given a list of words, return the words that can be typed using letters of
+* alphabet on only one row's of American keyboard.
+* Notes:
+* 1. You may use one character in the keyboard more than once.
+* 2. You may assume the input string will only contain letters of alphabet.
+* @param:
+* words: input words as array of strings
+* wordsSize: the size of words array
+* returnSize: int pointer to output's array size
+* @return:
+* char **: string array with the words that can be typed with one row.
 */
 char** findWords(char** words, int wordsSize, int* returnSize) {
   char *keyboard[3];
@@ -61,15 +84,12 @@ char** findWords(char** words, int wordsSize, int* returnSize) {
   keyboard[2] = "zxcvbnm";
   int rowsLength[3] = {10,9,7};
   int results[wordsSize];
-  char firstLetter;
   int row;
   int wordsCount = 0;
   char **finalWords;
-  firstLetter = 'd';
-  inOneRow(&*keyboard, words[0], 1);
   for(int i = 0; i < wordsSize; i++){
-    row = selectRow(&*keyboard, &rowsLength, words[i][0]);
-    results[i] = inOneRow(&*keyboard, words[i], row);
+    row = selectRow(&*keyboard, rowsLength, words[i][0]);
+    results[i] = inOneRow(keyboard[row], words[i], row);
     if(results[i]==1){
       wordsCount++;
     }
@@ -84,7 +104,5 @@ char** findWords(char** words, int wordsSize, int* returnSize) {
         }
   }
   *returnSize = wordsCount;
-  printf("%s\n", finalWords[0]);
-  printf("%s\n", finalWords[1]);
   return finalWords;
 }
