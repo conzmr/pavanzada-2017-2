@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "minunit.h"
 #include "keyboardRow.h"
 
@@ -15,7 +16,7 @@
 
 int testsRun = 0;
 
-static char * testUnit() {
+static char * testReturnSize() {
   int wordsSize = 4;
   int returnSize = 0;
   char *words[wordsSize];
@@ -23,13 +24,42 @@ static char * testUnit() {
   words[1] = "alaska";
   words[2] = "pero";
   words[3] = "pedo";
-  findWords(&*words, wordsSize, &returnSize);
-	muAssert("error, testUnit 1 != 1", 1 == 1);
+  char **outputWords = findWords(&*words, wordsSize, &returnSize);
+	muAssert("Error, returnSize must be == 2", returnSize == 2);
 	return 0;
 }
 
+static char * testCapitalizedWords() {
+  int wordsSize = 4;
+  int returnSize = 0;
+  char *words[wordsSize];
+  words[0] = "Hello";
+  words[1] = "Alaska";
+  words[2] = "Pero";
+  words[3] = "Pedo";
+  char **outputWords = findWords(&*words, wordsSize, &returnSize);
+	muAssert("Error, outputWords[0] must be == Alaska", outputWords[0][0] == 'A');
+	return 0;
+}
+
+static char * testDifferentWords() {
+  int wordsSize = 4;
+  int returnSize = 0;
+  char *words[wordsSize];
+  words[0] = "mira";
+  words[1] = "wow";
+  words[2] = "perro";
+  words[3] = "sala";
+  char **outputWords = findWords(&*words, wordsSize, &returnSize);
+	muAssert("Error, incorrect output", returnSize == 3 && outputWords[0][0] == 'w');
+	return 0;
+}
+
+
 static char * allTests() {
-  muRunTest(testUnit);
+  muRunTest(testReturnSize);
+  muRunTest(testCapitalizedWords);
+  muRunTest(testDifferentWords);
   return 0;
 }
 
