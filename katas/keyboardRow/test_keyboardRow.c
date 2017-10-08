@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "minunit.h"
 #include "keyboardRow.h"
 
@@ -15,8 +16,16 @@
 int testsRun = 0;
 
 static char * testUnit() {
-  muAssert("error, testUnit 1 != 1", 1 == 1);
-  return 0;
+  int wordsSize = 4;
+  int returnSize = 0;
+  char *words[wordsSize];
+  words[0] = "hello";
+  words[1] = "alaska";
+  words[2] = "pero";
+  words[3] = "pedo";
+  findWords(&*words, wordsSize, &returnSize);
+	muAssert("error, testUnit 1 != 1", 1 == 1);
+	return 0;
 }
 
 static char * allTests() {
