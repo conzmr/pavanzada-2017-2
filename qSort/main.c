@@ -3,27 +3,43 @@
 #include <string.h>
 #include "qSort.h"
 
+#define MAX_LENGTH_ORDER 20
+#define STUDENTS_LENGTH 3
+
 typedef struct s{
   char *name;
   int matricula;
 } Student;
 
+
 /* Add function signatures here */
-int cmpNames(void *element1, void const *element2){ //Quick sort the devuelve dos direcciones
+int cmpStudent(void const *element1, void const *element2, int attribute){ //Quick sort the devuelve dos direcciones
   Student *student1 = (Student *) element1;
   Student *student2 = (Student *) element2;
-  return strcmp(student1->name, student2->name);
+  switch (attribute) {
+    case 0: //name
+      return strcmp(student1->name, student2->name);
+    case 1: //matricula
+      return  student1->matricula - student2->matricula;
+  }
 }
 
-int cmpMatriculas(void *element1, void const *element2){ //Quick sort the devuelve dos direcciones
-  Student *student1 = (Student *) element1;
-  Student *student2 = (Student *) element2;
-  return  student1->name - student2->name;
+int cmpNames(void const *element1, void const *element2){ //Quick sort the devuelve dos direcciones
+  return cmpStudent(element1, element2,0);
+}
+
+int cmpMatriculas(void const *element1, void const *element2){ //Quick sort the devuelve dos direcciones
+  return cmpStudent(element1, element2,1);
 }
 
 int main(int argc, char **argv) {
-  char order[20];
-  Student group[3];
+  Student group[STUDENTS_LENGTH];
+	Student key;
+	Student * foundStudent;
+	char order[MAX_LENGTH_ORDER];
+  int neededStudent;
+
+
   group[0].name = strdup("Juanito");
   group[0].matricula = 17;
 
@@ -47,7 +63,17 @@ int main(int argc, char **argv) {
 
   for(int i = 0; i<3; i++){
     printf("Student %s %d \n", group[i].name, group[i].matricula);
+  }
 
+  printf("Which is the id?: ");
+  scanf("%d\n", &neededStudent );
+  key.matricula = neededStudent;
+
+  foundStudent = bsearch(&key, group, STUDENTS_LENGTH, sizeof(Student), cmpMatriculas);
+  if(foundStudent != NULL){
+    printf("Student %s %d \n", foundStudent->name, foundStudent->matricula);
+  }else{
+    printf("Student not found with id %d", neededStudent );
   }
 
   return 0;
