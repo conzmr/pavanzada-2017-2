@@ -1,5 +1,16 @@
 
 # twoArraysIntersection
+https://leetcode.com/problems/intersection-of-two-arrays/description/
+
+Given two arrays, write a function to compute their intersection.
+
+Example:
+Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].
+
+Note:
+Each element in the result must be unique.
+The result can be in any order.
+
 
 # How to compile
 make run
@@ -28,4 +39,3 @@ gcc -c module1.c # This command generates module1.o
 gcc -c program-that-depends-of-module1.c
 gcc -o program.out module1.o program-that-depends-of-module1.o
 ./program.out
-
