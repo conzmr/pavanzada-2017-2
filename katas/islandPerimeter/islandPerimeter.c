@@ -19,7 +19,6 @@
 * @return:
 * integer: island perimeter
 */
- // int islandPerimeter(int ** island, int row_size, int col_size) {
 int islandPerimeter(int** grid, int gridRowSize, int gridColSize) {
 	int totalPerimeter = 0;
   int  temp = 0;
